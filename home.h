@@ -9,9 +9,8 @@ class Home
 public:
     std::vector<Cat> cats_in_home;
 
-    Home();
-    void AddCatInVector(Cat, std::mutex&);
-    void RemoveCatFromVector(Cat, std::mutex&);
+    void AddCatsInVector(Cat[], std::mutex&);
+    void RemoveCatsFromVector(Cat[], std::mutex&);
     void ShowAllCatsInHome(std::mutex&);
 };
 

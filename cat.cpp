@@ -14,7 +14,7 @@ void Cat::SetValues(std::string name, int chance_of_arrival, int avarage_stay_ti
     this->WaitingOfArrivel();
 }
 
-void Cat::WaitingOfArrivel(Home home)
+void Cat::WaitingOfArrivel()
 {
     while(this->near == false)
     {
@@ -23,12 +23,11 @@ void Cat::WaitingOfArrivel(Home home)
         {
             this->near = true;
             this->GoAway();
-            home.AddCatInVector(this);
         }
     }
 }
 
-void Cat::GoAway(Home home)
+void Cat::GoAway()
 {
     int current_stay_time = this->avarage_stay_time;
 
@@ -40,7 +39,6 @@ void Cat::GoAway(Home home)
         {
             this->near = false;
             this->WaitingOfArrivel();
-            home.RemoveCatFromVector(this);
         }
     }
 }
