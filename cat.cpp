@@ -3,14 +3,14 @@
 #include <iostream>
 #include "cat.h"
 
-Cat::Cat(std::string name, int chance_of_arrival, int avarage_stay_time)
+void Cat::GetValues(std::string name, int chance_of_arrival, int avarage_stay_time)
 {
     this->name = name;
     this->chance_of_arrival = chance_of_arrival;
     this->avarage_stay_time = avarage_stay_time;
     this->near = false;
 
-    Cat::WaitingOfArrivel();
+    this->WaitingOfArrivel();
 }
 
 void Cat::WaitingOfArrivel()
@@ -26,7 +26,7 @@ void Cat::WaitingOfArrivel()
 
     std::cout << this->name << " is arrived :3";
 
-    Cat::GoAway();
+    this->GoAway();
 }
 
 void Cat::GoAway()
@@ -44,5 +44,5 @@ void Cat::GoAway()
     }
 
     std::cout << this->name << " go away :c";
-    Cat::WaitingOfArrivel();
+    this->WaitingOfArrivel();
 }

@@ -13,7 +13,7 @@ private:
     void WaitingOfArrivel();
     void GoAway();
 public:
-    Cat(std::string, int, int);
+    void GetValues(std::string, int, int);
 };
 
 #endif // CAT_H

@@ -8,8 +8,10 @@ int main()
 {
     std::cout << "Hello World!";
     std::srand(time(NULL));
-    std::thread first(&Cat::Cat, snowball, "Snowball", 50, 1);
-    std::thread second(&Cat::Cat, spot, "Spot", 25, 2);
+    Cat snowball;
+    Cat spot;
+    std::thread first(&Cat::GetValues, snowball, "Snowball", 100, 1);
+    std::thread second(&Cat::GetValues, spot, "Spot", 25, 2);
     first.join();
     second.join();
 }
