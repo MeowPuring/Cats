@@ -3,33 +3,35 @@
 #include <iostream>
 #include "cat.h"
 
-void Cat::GetValues(std::string name, int chance_of_arrival, int avarage_stay_time)
+void Cat::GetValues(std::mutex& mtx, std::string name, int chance_of_arrival, int avarage_stay_time)
 {
     this->name = name;
     this->chance_of_arrival = chance_of_arrival;
     this->avarage_stay_time = avarage_stay_time;
     this->near = false;
 
-    this->WaitingOfArrivel();
+    this->WaitingOfArrivel(mtx);
 }
 
-void Cat::WaitingOfArrivel()
+void Cat::WaitingOfArrivel(std::mutex& mtx)
 {
     while(this->near == false)
     {
         std::this_thread::sleep_for(std::chrono::minutes(1));
-        if ( rand() % 101 <= this->chance_of_arrival)
+        if ( rand() % 100 + 1 <= this->chance_of_arrival)
         {
             this->near = true;
         }
     }
 
-    std::cout << this->name << " is arrived :3";
+    mtx.lock();
+    std::cout << this->name << " is arrived :3" << std::endl;
+    mtx.unlock();
 
-    this->GoAway();
+    this->GoAway(mtx);
 }
 
-void Cat::GoAway()
+void Cat::GoAway(std::mutex& mtx)
 {
     int current_stay_time = this->avarage_stay_time;
 
@@ -43,6 +45,9 @@ void Cat::GoAway()
         }
     }
 
-    std::cout << this->name << " go away :c";
-    this->WaitingOfArrivel();
+    mtx.lock();
+    std::cout << this->name << " go away :c" << std::endl;
+    mtx.lock();
+
+    this->WaitingOfArrivel(mtx);
 }

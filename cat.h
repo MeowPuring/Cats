@@ -1,6 +1,7 @@
 #ifndef CAT_H
 #define CAT_H
 #include <string>
+#include <mutex>
 
 class Cat
 {
@@ -10,10 +11,10 @@ private:
     int avarage_stay_time;
     bool near;
 
-    void WaitingOfArrivel();
-    void GoAway();
+    void WaitingOfArrivel(std::mutex&);
+    void GoAway(std::mutex&);
 public:
-    void GetValues(std::string, int, int);
+    void GetValues(std::mutex& mtx, std::string, int, int);
 };
 
 #endif // CAT_H
