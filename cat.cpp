@@ -2,18 +2,19 @@
 #include <thread>
 #include <iostream>
 #include "cat.h"
+#include "home.h"
 
-void Cat::GetValues(std::mutex& mtx, std::string name, int chance_of_arrival, int avarage_stay_time)
+void Cat::SetValues(std::string name, int chance_of_arrival, int avarage_stay_time)
 {
     this->name = name;
     this->chance_of_arrival = chance_of_arrival;
     this->avarage_stay_time = avarage_stay_time;
     this->near = false;
 
-    this->WaitingOfArrivel(mtx);
+    this->WaitingOfArrivel();
 }
 
-void Cat::WaitingOfArrivel(std::mutex& mtx)
+void Cat::WaitingOfArrivel(Home home)
 {
     while(this->near == false)
     {
@@ -21,17 +22,13 @@ void Cat::WaitingOfArrivel(std::mutex& mtx)
         if ( rand() % 100 + 1 <= this->chance_of_arrival)
         {
             this->near = true;
+            this->GoAway();
+            home.AddCatInVector(this);
         }
     }
-
-    mtx.lock();
-    std::cout << this->name << " is arrived :3" << std::endl;
-    mtx.unlock();
-
-    this->GoAway(mtx);
 }
 
-void Cat::GoAway(std::mutex& mtx)
+void Cat::GoAway(Home home)
 {
     int current_stay_time = this->avarage_stay_time;
 
@@ -42,12 +39,8 @@ void Cat::GoAway(std::mutex& mtx)
         if(current_stay_time == 0)
         {
             this->near = false;
+            this->WaitingOfArrivel();
+            home.RemoveCatFromVector(this);
         }
     }
-
-    mtx.lock();
-    std::cout << this->name << " go away :c" << std::endl;
-    mtx.lock();
-
-    this->WaitingOfArrivel(mtx);
 }

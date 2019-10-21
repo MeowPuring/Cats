@@ -1,20 +1,21 @@
 #ifndef CAT_H
 #define CAT_H
 #include <string>
-#include <mutex>
+#include "home.h"
 
 class Cat
 {
 private:
-    std::string name;
     int chance_of_arrival;
     int avarage_stay_time;
     bool near;
 
-    void WaitingOfArrivel(std::mutex&);
-    void GoAway(std::mutex&);
+    void WaitingOfArrivel(Home);
+    void GoAway(Home);
 public:
-    void GetValues(std::mutex& mtx, std::string, int, int);
+    std::string name;
+
+    void SetValues(std::string, int, int);
 };
 
 #endif // CAT_H
